@@ -1,6 +1,6 @@
 // Homepage.js
 import React from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { useAuth } from '../AuthContext/AuthContext';
 import './Homepage.css';
 function TicketBookingLink() {
