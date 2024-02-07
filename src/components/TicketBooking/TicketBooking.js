@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../AuthContext/AuthContext';
-
-//import { format } from 'date-fns';
 import './TicketBooking.css';
 import API_BASE_URL from '../config';
 function TicketBooking() {
@@ -232,30 +230,6 @@ function TicketBooking() {
         </button>
       </form>
 
-      <div>
-        <h2>My Booked Tickets</h2>
-        {loading && <p>Loading booked tickets...</p>}
-        {error && <p>{error}</p>}
-        {!loading && !error && (
-          <>
-            {Array.isArray(bookedTickets) && bookedTickets.length === 0 ? (
-              <p>No booked tickets available.</p>
-            ) : (
-              <ul className="table">
-                {Array.isArray(bookedTickets) &&
-                  bookedTickets.map((ticket, index) => (
-                    <li key={index}>
-                    <strong>From:</strong> {ticket.from}, <strong>Destination:</strong> {ticket.destination}, {' '}
-                    <strong>Flight Name:</strong> {ticket.flightName}, <strong>Price:</strong> {ticket.price}, {' '}
-                    <strong>Date:</strong> {new Date(ticket.date).toLocaleDateString()},{' '}
-                    <button onClick={() => handleCancelTicket(ticket._id)}>Cancel</button>
-                  </li>
-                  ))}
-              </ul>
-            )}
-          </>
-        )}
-      </div>
 
       <div>
         <h2>Current User</h2>
