@@ -11,7 +11,7 @@ function TicketBooking() {
   const [bookedTickets, setBookedTickets] = useState([]);
   const [currentuser, setCurrentuser] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [ setError] = useState(null);
   const [selectedFlight, setSelectedFlight] = useState(null);
   const [selectedClass, setSelectedClass] = useState('economy');
   
@@ -41,7 +41,7 @@ function TicketBooking() {
     // Log the user ID
     console.log('User ID:', user ? user.userid : 'No user logged in');
   }, [user]);
-
+// eslint-disable-next-line no-unused-vars
   const handleCancelTicket = async (ticketId) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/cancel-ticket/${ticketId}`, {
