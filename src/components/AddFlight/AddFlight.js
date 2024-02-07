@@ -58,18 +58,7 @@ function AddFlight() {
         setMessage(data.message);
         console.log(data.message);
          // Reset form data
-      setFormData({
-        userId: '',
-        name: '',
-        from: '',
-        destination: '',
-        priceEconomy: '',
-        priceBusiness: '',
-        date: new Date(),
-      });
-      setFrom(''); // Reset "From" dropdown
-      setDestination(''); // Reset "Destination" dropdown
-
+     
         // You may redirect or show a success message
       } else {
         console.error(data.message);
