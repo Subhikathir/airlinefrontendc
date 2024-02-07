@@ -11,7 +11,7 @@ function TicketBooking() {
   const [bookedTickets, setBookedTickets] = useState([]);
   const [currentuser, setCurrentuser] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [ setError] = useState(null);
+  const [error, setError] = useState(null);
   const [selectedFlight, setSelectedFlight] = useState(null);
   const [selectedClass, setSelectedClass] = useState('economy');
   
@@ -41,7 +41,7 @@ function TicketBooking() {
     // Log the user ID
     console.log('User ID:', user ? user.userid : 'No user logged in');
   }, [user]);
-// eslint-disable-next-line no-unused-vars
+
   const handleCancelTicket = async (ticketId) => {
     try {
       const response = await fetch(`${API_BASE_URL}/api/cancel-ticket/${ticketId}`, {
@@ -229,7 +229,30 @@ function TicketBooking() {
           {loading ? 'Booking...' : 'Book Ticket'}
         </button>
       </form>
-
+      <div>
+        <h2>My Booked Tickets</h2>
+        {loading && <p>Loading booked tickets...</p>}
+        {error && <p>{error}</p>}
+        {!loading && !error && (
+          <>
+            {Array.isArray(bookedTickets) && bookedTickets.length === 0 ? (
+              <p>No booked tickets available.</p>
+            ) : (
+              <ul className="table">
+                {Array.isArray(bookedTickets) &&
+                  bookedTickets.map((ticket, index) => (
+                    <li key={index}>
+                    <strong>From:</strong> {ticket.from}, <strong>Destination:</strong> {ticket.destination}, {' '}
+                    <strong>Flight Name:</strong> {ticket.flightName}, <strong>Price:</strong> {ticket.price}, {' '}
+                    <strong>Date:</strong> {new Date(ticket.date).toLocaleDateString()},{' '}
+                    <button onClick={() => handleCancelTicket(ticket._id)}>Cancel</button>
+                  </li>
+                  ))}
+              </ul>
+            )}
+          </>
+        )}
+      </div>
 
       <div>
         <h2>Current User</h2>
