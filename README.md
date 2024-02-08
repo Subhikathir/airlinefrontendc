@@ -1,3 +1,13 @@
+# MERN FLIGHT BOOKING APPLICATION
+ A Complete Flight Booking Application made using MERN Stack(MongoDB,Express js, React js,Node js)
+
+The Flight ticket booking app is composed of the following features:
+
+* Login-In pages and new Register page to login to the website.
+* Users can enter their Name,Email,Phone,Password after that they can login using the Name and the Password.
+* After that by clicking Ticket Booking users can select their Destination after that they can fetch the flight details by using the fetch available flights button and they can choose class (Economy class/Business class)and they can book their tickets and the booked tickets will available in the after they logged in and they can also cancel their tickets.
+*different airways owner can  add their flight details (Destination,Price,Date)
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
