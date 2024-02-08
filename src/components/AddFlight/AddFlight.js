@@ -1,30 +1,38 @@
-
 import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import API_BASE_URL from '../config';
 import './AddFlight.css';
+
 function AddFlight() {
   const [formData, setFormData] = useState({
-    userId: '', // You may get this from your authentication context
+    userId: '',
     name: '',
-    from: 'Select a city',
-    destination: 'Select a city',
+    from: '',
+    destination: '',
     priceEconomy: '',
     priceBusiness: '',
-    date: new Date(), // Initialize with the current date
+    date: new Date(),
   });
+
   const [cities, setCities] = useState([]);
-  const [from, setFrom] = useState('');
-  const [destination, setDestination] = useState('');
   const [message, setMessage] = useState('');
+
+  const [date, setDate] = useState(new Date());
+
   useEffect(() => {
-    // Fetch the list of cities from MongoDB
-    fetch(`${API_BASE_URL}/api/cities`)
-      .then((response) => response.json())
-      .then((data) => setCities(data.cities))
-      .catch((error) => console.error('Error fetching cities:', error));
-  });
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/api/cities`);
+        const data = await response.json();
+        setCities(data.cities);
+      } catch (error) {
+        console.error('Error fetching cities:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleChange = (e) => {
     setFormData({
@@ -33,10 +41,11 @@ function AddFlight() {
     });
   };
 
-  const handleDateChange = (date) => {
+  const handleDateChange = (selectedDate) => {
+    setDate(selectedDate);
     setFormData({
       ...formData,
-      date,
+      date: selectedDate,
     });
   };
 
@@ -56,10 +65,16 @@ function AddFlight() {
 
       if (response.ok) {
         setMessage(data.message);
-        console.log(data.message);
-         // Reset form data
-     
-        // You may redirect or show a success message
+        // Reset form data
+        setFormData({
+          userId: '',
+          name: '',
+          from: '',
+          destination: '',
+          priceEconomy: '',
+          priceBusiness: '',
+          date: new Date(),
+        });
       } else {
         console.error(data.message);
       }
@@ -78,20 +93,22 @@ function AddFlight() {
           <input type="text" name="name" value={formData.name} onChange={handleChange} />
         </label>
         <br />
-         <label>
-          From:
-          <select value={from} onChange={(e) => setFrom(e.target.value)}>
-            <option value="">Select a city</option>
-            {cities.map((city) => (
-              <option key={city._id} value={city.name}>
-                {city.name}
-              </option>
-            ))}
-          </select>
-        </label>
+        {cities.length > 0 && (
+          <label>
+            From:
+            <select value={formData.from} onChange={handleChange} name="from">
+              <option value="">Select a city</option>
+              {cities.map((city) => (
+                <option key={city._id} value={city.name}>
+                  {city.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
         <label>
           Destination:
-          <select value={destination} onChange={(e) => setDestination(e.target.value)}>
+          <select value={formData.destination} onChange={handleChange} name="destination">
             <option value="">Select a city</option>
             {cities.map((city) => (
               <option key={city._id} value={city.name}>
@@ -113,7 +130,7 @@ function AddFlight() {
         <br />
         <label>
           Date:
-          <DatePicker selected={formData.date} onChange={handleDateChange} />
+          <DatePicker selected={date} onChange={handleDateChange} />
         </label>
         <br />
         <button type="submit">Add Flight</button>
